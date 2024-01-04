@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bog_app_with_clean_arch_bloc_blogger_api/features/home/domain/entities/post_entity.dart';
 
 class PostCard extends StatelessWidget {
   const PostCard({
     super.key,
+    required this.postEntity,
   });
+
+  final PostEntity postEntity;
 
   @override
   Widget build(BuildContext context) {
@@ -41,13 +45,19 @@ class PostCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "After night which darkness given",
+                  postEntity.title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Theme.of(context).primaryColor,
                   ),
                 ),
-                const Text("After night which darkness given"),
+                Text(
+                  postEntity.content,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

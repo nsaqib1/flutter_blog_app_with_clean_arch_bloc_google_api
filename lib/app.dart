@@ -1,32 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bog_app_with_clean_arch_bloc_blogger_api/core/style/app_colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bog_app_with_clean_arch_bloc_blogger_api/core/style/app_theme.dart';
+import 'package:flutter_bog_app_with_clean_arch_bloc_blogger_api/features/home/presentation/bloc/home_bloc.dart';
 import 'package:flutter_bog_app_with_clean_arch_bloc_blogger_api/features/home/presentation/screens/home_screen.dart';
+
+import 'injection_container.dart';
 
 class BlogApp extends StatelessWidget {
   const BlogApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: MaterialColor(0xFF022E75, AppColors.colorSwatch),
-        primaryColor: AppColors.primaryColor,
-        scaffoldBackgroundColor: Colors.grey.shade200,
-        cardTheme: CardTheme(
-          elevation: 4,
-          color: Colors.white,
-          shadowColor: AppColors.primaryColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => sl.get<HomeBloc>(),
         ),
-        floatingActionButtonTheme: const FloatingActionButtonThemeData(
-          backgroundColor: AppColors.accentColor,
-          foregroundColor: AppColors.primaryColor,
-        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.defaultTheme,
+        home: const HomeScreen(),
       ),
-      home: const HomeScreen(),
     );
   }
 }

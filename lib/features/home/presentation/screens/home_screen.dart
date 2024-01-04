@@ -1,9 +1,21 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bog_app_with_clean_arch_bloc_blogger_api/features/home/presentation/bloc/home_bloc.dart';
 import '../widgets/post_card.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<HomeBloc>(context).add(HomeGetAllPostEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,15 +82,46 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: ListView.separated(
-              padding: const EdgeInsets.only(
-                left: 15,
-                right: 15,
-                bottom: 100,
-              ),
-              itemBuilder: (context, index) => const PostCard(),
-              separatorBuilder: (context, index) => const SizedBox(height: 20),
-              itemCount: 5,
+            child: BlocConsumer<HomeBloc, HomeState>(
+              listener: (context, state) {
+                // TODO: implement listener
+              },
+              builder: (context, state) {
+                switch (state.runtimeType) {
+                  case HomePostLoadSuccessState:
+                    state as HomePostLoadSuccessState;
+                    return RefreshIndicator(
+                      onRefresh: () async {
+                        BlocProvider.of<HomeBloc>(context).add(HomeGetAllPostEvent());
+                      },
+                      child: ListView.separated(
+                        physics: const BouncingScrollPhysics(),
+                        padding: const EdgeInsets.only(
+                          left: 15,
+                          right: 15,
+                          bottom: 100,
+                        ),
+                        itemBuilder: (context, index) => PostCard(postEntity: state.posts[index]),
+                        separatorBuilder: (context, index) => const SizedBox(height: 20),
+                        itemCount: 5,
+                      ),
+                    );
+
+                  case HomePostLoadInProgressState:
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+
+                  case HomePostLoadFailedState:
+                    state as HomePostLoadFailedState;
+                    return Center(
+                      child: Text(state.failure.message),
+                    );
+
+                  default:
+                    return const SizedBox.shrink();
+                }
+              },
             ),
           ),
         ],
