@@ -1,3 +1,5 @@
+import 'package:flutter_bog_app_with_clean_arch_bloc_blogger_api/core/utils/date_formatter.dart';
+
 import '../../domain/entities/post_entity.dart';
 import 'post_author_model.dart';
 import 'post_replies_model.dart';
@@ -17,10 +19,16 @@ class PostModel extends PostEntity {
   });
 
   factory PostModel.fromJson(Map<String, dynamic> json) {
+    final date = DateFormatter.formatDateMmDDYYYY(
+      DateTime.parse(
+        json["published"],
+      ),
+    );
+
     return PostModel(
       kind: json["kind"],
       id: json["id"],
-      published: json["published"],
+      published: date,
       updated: json["updated"],
       url: json["url"],
       selfLink: json["selfLink"],

@@ -103,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         itemBuilder: (context, index) => PostCard(postEntity: state.posts[index]),
                         separatorBuilder: (context, index) => const SizedBox(height: 20),
-                        itemCount: 5,
+                        itemCount: state.posts.length,
                       ),
                     );
 

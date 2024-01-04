@@ -45,7 +45,7 @@ class PostCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  postEntity.title,
+                  postEntity.title.trim(),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -58,23 +58,29 @@ class PostCard extends StatelessWidget {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
                       children: [
                         Text(
-                          "0",
-                          style: TextStyle(fontSize: 16),
+                          postEntity.replies.totalItems,
+                          style: const TextStyle(fontSize: 16),
                         ),
-                        SizedBox(width: 4),
-                        Icon(
+                        const SizedBox(width: 4),
+                        const Icon(
                           Icons.comment_outlined,
                           size: 14,
                         ),
                       ],
                     ),
-                    Text("Jan 01, 2024"),
+                    Expanded(
+                      child: Text(
+                        postEntity.published,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
                   ],
                 ),
               ],
