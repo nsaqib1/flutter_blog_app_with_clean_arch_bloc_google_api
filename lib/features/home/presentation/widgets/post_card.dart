@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bog_app_with_clean_arch_bloc_blogger_api/features/home/domain/entities/post_entity.dart';
+import 'package:html/parser.dart';
 
 class PostCard extends StatelessWidget {
   const PostCard({
@@ -11,6 +12,7 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final document = parse(postEntity.content);
     return Container(
       height: 150,
       padding: const EdgeInsets.all(15),
@@ -54,7 +56,7 @@ class PostCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  postEntity.content,
+                  document.body?.text.trim() ?? "",
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
