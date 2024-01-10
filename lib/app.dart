@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bog_app_with_clean_arch_bloc_blogger_api/core/style/app_theme.dart';
-import 'package:flutter_bog_app_with_clean_arch_bloc_blogger_api/features/home/presentation/bloc/home_bloc.dart';
-import 'package:flutter_bog_app_with_clean_arch_bloc_blogger_api/features/home/presentation/screens/home_screen.dart';
-
+import 'package:flutter_bog_app_with_clean_arch_bloc_blogger_api/features/home/presentation/blocs/auth_bloc/auth_bloc.dart';
+import 'features/home/presentation/blocs/post_bloc/post_bloc.dart';
+import 'features/home/presentation/screens/home_screen.dart';
 import 'injection_container.dart';
 
 class BlogApp extends StatelessWidget {
@@ -14,7 +14,10 @@ class BlogApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => sl.get<HomeBloc>(),
+          create: (context) => sl.get<PostBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => sl.get<AuthBloc>(),
         ),
       ],
       child: MaterialApp(

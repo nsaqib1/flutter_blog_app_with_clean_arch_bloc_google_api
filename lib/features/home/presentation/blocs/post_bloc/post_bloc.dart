@@ -5,23 +5,23 @@ import 'package:flutter_bog_app_with_clean_arch_bloc_blogger_api/features/home/d
 import 'package:flutter_bog_app_with_clean_arch_bloc_blogger_api/features/home/domain/usecases/get_all_post.dart';
 import 'package:meta/meta.dart';
 
-part 'home_event.dart';
-part 'home_state.dart';
+part 'post_event.dart';
+part 'post_state.dart';
 
-class HomeBloc extends Bloc<HomeEvent, HomeState> {
+class PostBloc extends Bloc<PostEvent, PostState> {
   final GetAllPosts _getAllPosts;
-  HomeBloc({required GetAllPosts getAllPosts})
+  PostBloc({required GetAllPosts getAllPosts})
       : _getAllPosts = getAllPosts,
-        super(HomeInitial()) {
-    on<HomeGetAllPostEvent>(homeGetAllPostEvent);
+        super(PostInitial()) {
+    on<PostGetAllPostEvent>(homeGetAllPostEvent);
   }
 
   FutureOr<void> homeGetAllPostEvent(event, emit) async {
-    emit(HomePostLoadInProgressState());
+    emit(PostLoadInProgressState());
     final response = await _getAllPosts.execute("https://www.googleapis.com/blogger/v3/blogs/3206430660214608075/posts");
     response.fold(
-      (l) => emit(HomePostLoadFailedState(failure: l)),
-      (r) => emit(HomePostLoadSuccessState(posts: r)),
+      (l) => emit(PostLoadFailedState(failure: l)),
+      (r) => emit(PostLoadSuccessState(posts: r)),
     );
   }
 }

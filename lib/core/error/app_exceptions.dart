@@ -22,3 +22,11 @@ class NetworkRequestUnsuccessful extends AppExceptions {
           errorMessage: errorMessage,
         );
 }
+
+class AuthException extends AppExceptions {
+  AuthException({required String errorMessage})
+      : super(
+          type: "AuthException",
+          errorMessage: errorMessage,
+        );
+}
